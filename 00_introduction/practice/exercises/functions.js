@@ -6,7 +6,10 @@ Example:
 [1, 2, 3], x => x + 1  yields [2, 3 ,4]
 */
 export function map(array, func) {
-  // YOUR CODE HERE
+  return array.reduce((result, el) => {
+    result.push(func(el));
+    return result;
+  }, [])
 }
 
 /*
@@ -19,7 +22,13 @@ returns new array with elements matched to filter
 
 */
 export function filter(array, fn) {
-  // YOUR CODE HERE
+  return array.reduce((result, el) => {
+    if (fn(el)) {
+      result.push(el)
+    }
+    return result;
+  }, [])
+
 }
 
 /*
@@ -36,7 +45,21 @@ gen() -> 5
 ...
 */
 export function fibGenerator() {
-  // YOUR CODE HERE
+  let secondLast;
+  let last;
+  return () => {
+    if (secondLast === undefined) {
+      secondLast = 0;
+      return secondLast;
+    } else if (last === undefined) {
+      last = 1;
+      return last;
+    }
+    const fib = secondLast + last;
+    secondLast = last;
+    last = fib;
+    return fib;
+  };
 }
 
 /*
