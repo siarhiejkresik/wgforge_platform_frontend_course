@@ -76,5 +76,6 @@ sumTwoAndFour() // 6
 Note: function has a length property which shows how many arguments it receives
 */
 export function partial(fn, ...args) {
-  // YOUR CODE HERE
+  // return fn.bind(null, ...args);
+  return (...argsRest) => fn(...argsRest.concat(args));
 }
