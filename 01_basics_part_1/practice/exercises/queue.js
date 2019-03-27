@@ -13,7 +13,11 @@ export default class Queue {
     /**
      * У любой очереди должна быть длинна!
      */
-    this.length = 0;
+    // this.length = 0;
+  }
+
+  get length() {
+    return this.list.length;
   }
 
   /**
@@ -21,7 +25,7 @@ export default class Queue {
    */
 
   enqueue(value) {
-    // your code is here
+    this.list.push(value);
   }
 
   /**
@@ -30,7 +34,7 @@ export default class Queue {
    */
 
   dequeue() {
-    // your code is here
+    return this.list.shift();
   }
 
   /**
@@ -39,6 +43,6 @@ export default class Queue {
    */
 
   peek() {
-    // your code is here
+    return this.list[0];
   }
 }
