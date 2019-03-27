@@ -14,7 +14,11 @@ export default class Stack {
      * Мы должны иметь возможность узнать текущий размер стека.
      * Используем для этого свойство length
      */
-    this.length = 0;
+    // this.length = 0;
+  }
+
+  get length() {
+    return this.list.length;
   }
 
   /**
@@ -23,7 +27,7 @@ export default class Stack {
    */
 
   push(value) {
-    // your code here
+    this.list.push(value);
   }
 
   /**
@@ -31,7 +35,7 @@ export default class Stack {
    */
 
   pop() {
-    // your code here
+    return this.list.pop();
   }
 
   /**
@@ -39,6 +43,6 @@ export default class Stack {
    */
 
   peek() {
-    // your code here
+    return this.list[this.length - 1];
   }
 }
