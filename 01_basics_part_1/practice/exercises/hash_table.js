@@ -4,12 +4,21 @@
  * Ключом должна быть строка.
  */
 
+function djs2HashSting(string) {
+  let hash = 5381;
+  for (const char of string) {
+    hash = ((hash << 5) + hash) + char.charCodeAt(0);
+  }
+  return hash;
+}
+
 export default class HashTable {
   /**
    * в качестве "памяти" используем массив
    */
   constructor() {
-    this.memory = [];
+    this.memory = []; // an array of buckets: [ ... , [ ... , [key,value], ... ], ... ]
+    this.size = 100; // max size of buckets in a hashtable
   }
 
   /**
@@ -20,7 +29,8 @@ export default class HashTable {
    */
 
   hashKey(key) {
-    // your code is here
+    const hash = djs2HashSting(key);
+    return hash % this.size;
   }
 
   /**
@@ -28,7 +38,18 @@ export default class HashTable {
    */
 
   get(key) {
-    // your code here
+    const bucketIndex = this.hashKey(key);
+    const bucket = this.memory[bucketIndex];
+
+    if (!bucket) {
+      return;
+    }
+
+    for (const [key_, value] of bucket) {
+      if (key_ === key) {
+        return value;
+      }
+    }
   }
 
   /**
@@ -36,7 +57,15 @@ export default class HashTable {
    */
 
   set(key, value) {
-    // your code is here
+    const bucketIndex = this.hashKey(key);
+    let bucket = this.memory[bucketIndex];
+
+    if (!bucket) {
+      bucket = [];
+      this.memory[bucketIndex] = bucket;
+    }
+
+    bucket.push([key,value]);
   }
 
   /**
@@ -45,6 +74,22 @@ export default class HashTable {
    */
 
   remove(key) {
-    // your code is here
+    const bucketIndex = this.hashKey(key);
+    const bucket = this.memory[bucketIndex];
+
+    if (!bucket) {
+      return false;
+    }
+
+    const dataIndex = bucket.find(([key_]) => key_ === key);
+    if (dataIndex === undefined) {
+      return false;
+    }
+    bucket.splice(dataIndex, 1);
+
+    if (bucket.length === 0) {
+      this.memory[bucketIndex] = undefined;
+    }
+    return true;
   }
 }
