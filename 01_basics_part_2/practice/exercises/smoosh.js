@@ -15,12 +15,36 @@
  * с сообщением 'argument should be an array'.
  */
 
-function smoosh() {
-  // your code here
+// all tests are ok
+
+const isInputArrayValidator = fn => input => {
+  if (!Array.isArray(input)) {
+   throw new TypeError('argument should be an array');
+  }
+  return fn(input);
 }
 
-function squeeze() {
-  // your code here
-}
+function smoosh(input) {
+  return input.reduce((acc, current) => {
+    Array.isArray(current)
+      ? acc.push(...smoosh(current))
+      : acc.push(current);
+    return acc;
+  }, []);
+};
+
+function squeeze(input) {
+  return input.reduceRight((acc, current, index) => {
+    if (Array.isArray(current)) {
+      acc.splice(index, 1, ...squeeze(current));
+    }
+    return acc;
+  }, input);
+};
+
+smoosh = isInputArrayValidator(smoosh);
+squeeze = isInputArrayValidator(squeeze);
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat#reduce_and_concat
 
 export { smoosh, squeeze };
