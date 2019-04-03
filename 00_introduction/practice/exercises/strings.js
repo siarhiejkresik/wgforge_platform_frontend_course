@@ -15,7 +15,10 @@ Example:
 'test' -> 'ts'
 */
 export function oddElements(string) {
-  return string.split('').filter((char, i) => !(i % 2)).join('');
+  return string
+          .split('')
+          .filter((char, i) => !(i % 2))
+          .join('');
 }
 
 /*
@@ -29,5 +32,5 @@ Example:
 Note: String has .split(separator) method where seprator is another string
 */
 export function wordsCount(string) {
-  return !string ? 0 : string.split(' ').length
+  return string ? string.split(' ').length : 0;
 }
