@@ -28,12 +28,16 @@ test('query', t => {
   }
 
   t.test('generated SQL', qt => {
-    const select = q.select().from('user');
+    const select = query()
+      .select()
+      .from('user');
 
     qt.equal(select.toString(), 'SELECT * FROM user;');
     qt.equal(select.from('ignore_this').toString(), 'SELECT * FROM user;');
     qt.equal(
-      select
+      query()
+        .select()
+        .from('user')
         .where('id')
         .in([42, 1337])
         .toString(),
