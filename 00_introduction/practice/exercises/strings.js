@@ -2,7 +2,7 @@
 write a function's body that concat all passed strings to one and returns it
 */
 export function concat(...strings) {
-  // YOUR CODE HERE
+  return strings.join('')
 }
 
 /*
@@ -15,7 +15,10 @@ Example:
 'test' -> 'ts'
 */
 export function oddElements(string) {
-  // YOUR CODE HERE
+  return string
+          .split('')
+          .filter((char, i) => !(i % 2))
+          .join('');
 }
 
 /*
@@ -29,5 +32,5 @@ Example:
 Note: String has .split(separator) method where seprator is another string
 */
 export function wordsCount(string) {
-  // YOUR CODE HERE
+  return string ? string.split(' ').length : 0;
 }
