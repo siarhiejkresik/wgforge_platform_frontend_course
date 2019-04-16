@@ -10,6 +10,11 @@
  *  zipObject(['a', 'b'], [1, 2]);
  *  // => { 'a': 1, 'b': 2 }
  */
-export default function zipObject() {
-  // ¯\_(ツ)_/¯
+// eslint-disable-next-line filenames/match-regex
+export default function zipObject(props, values) {
+  const valuesCount = values.length;
+  return props.reduce((acc, key, index) => {
+    acc[key] = index < valuesCount ? values[index] : undefined;
+    return acc;
+  }, {});
 }
