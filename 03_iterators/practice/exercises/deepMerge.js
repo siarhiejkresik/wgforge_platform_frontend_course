@@ -1,3 +1,5 @@
+/* eslint-disable func-style */
+/* eslint-disable no-use-before-define */
 /**
  * Реализовать метод deepMerge для рекурсивного слияния собственных и унаследованных перечислимых
  * строковых свойств исходного объекта в целевой объект.
@@ -26,6 +28,56 @@
  * //       count: 1
  * //    }
  */
-export default function deepMerge(destinationObject, sourceObject) {
-  // ¯\_(ツ)_/¯
+
+// eslint-disable-next-line filenames/match-regex
+export default function deepMerge(dst, src) {
+  if (dst === src || !isMergeable(dst, src)) {
+    return dst;
+  }
+
+  for (const prop in src) {
+    const srcValue = src[prop];
+    const dstValue = dst[prop];
+
+    // Свойства исходного объекта, которые разрешаются в undefined,
+    //  пропускаются если свойство существует в целевом объекте.
+    if (srcValue === undefined && prop in dst) {
+      continue;
+    }
+
+    // свойства Array и plain Object типа рекурсивно объединяются
+    if (isMergeable(srcValue, dstValue)) {
+      deepMerge(dst[prop], srcValue);
+      continue;
+    }
+
+    // свойства других типов из исходного объекта переписывают свойства
+    // в объекте назначения либо добавляются если их нету в объекте назначения
+    dst[prop] = srcValue;
+  }
+  return dst;
+}
+
+// copied from redux
+function isPlainObject(obj) {
+  if (typeof obj !== 'object' || obj === null) return false;
+
+  let proto = obj;
+  while (Object.getPrototypeOf(proto) !== null) {
+    proto = Object.getPrototypeOf(proto);
+  }
+
+  return Object.getPrototypeOf(obj) === proto;
+}
+
+function isArray(obj) {
+  return Array.isArray(obj);
+}
+
+function isMergeableType(value) {
+  return isArray(value) || isPlainObject(value);
+}
+
+function isMergeable(src, dst) {
+  return isMergeableType(src) && isMergeableType(dst);
 }
