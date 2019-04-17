@@ -48,8 +48,10 @@ const sourceObject = {
 test('deepMerge', t => {
   t.equal(typeof deepMerge, 'function');
 
-  const deepMergeResult = deepMerge(destinationObject, sourceObject);
-  const expectedMergeResult = _merge(destinationObject, sourceObject);
+  const dstClone = () => JSON.parse(JSON.stringify(destinationObject));
+
+  const deepMergeResult = deepMerge(dstClone(), sourceObject);
+  const expectedMergeResult = _merge(dstClone(), sourceObject);
 
   t.test('deep merge two objects', tt => {
     tt.deepEqual(deepMergeResult, expectedMergeResult);
