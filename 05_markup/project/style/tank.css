@@ -54,10 +54,12 @@
         /*** animation ***/
         /*animation: turret 20s infinite alternate;*/
     }
-    .tank_turret__left {
+    .tank_turret__left,
+    .tank_turret[data-direction="left"] {
         transform: rotate(-40deg);
     }
-    .tank_turret__right {
+    .tank_turret__right,
+    .tank_turret[data-direction="right"] {
         transform: rotate(40deg);
     }
     .tank_turret__center {
