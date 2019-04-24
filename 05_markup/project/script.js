@@ -34,7 +34,7 @@ const turretMove = () => {
   });
 };
 
-const tankMove = ({ id, velocity = 0.2 }) => {
+const tankMove = ({ id, velocity = 0.5 }) => {
   const tank = document.getElementById(id);
   if (!tank) {
     return;
@@ -48,7 +48,7 @@ const tankMove = ({ id, velocity = 0.2 }) => {
   const getTankY = () => getTankParam('y');
 
   const tankHeight = getTankParam('height');
-  let firstX = getTankParam('x');
+  let firstX = getTankParam('x') - getTankParam('width');
   let lastY = getTankY();
 
   document.querySelector('.layout_item__game').addEventListener('scroll', () => {
@@ -56,7 +56,7 @@ const tankMove = ({ id, velocity = 0.2 }) => {
 
     if (isInWindowVertically(tankY, tankHeight)) {
       const dy = tankY - lastY;
-      const dx = -dy * velocity;
+      const dx = (-dy * velocity * window.innerWidth) / window.innerHeight;
       firstX += dx;
 
       tank.style.transform = `translate3d(${firstX}px, 0, 0)`;
