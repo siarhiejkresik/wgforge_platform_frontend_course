@@ -5,6 +5,13 @@
  * выполнение и вернуть undefined.
  */
 
-export default function sleep() {
-  // your code here
+// all tests are ok
+
+export default function sleep(time) {
+  if (!Number.isInteger(time) || time < 0) {
+    return;
+  }
+  const stopTime = Date.now() + time * 1000;
+  while (Date.now() < stopTime) {}
 }
+
