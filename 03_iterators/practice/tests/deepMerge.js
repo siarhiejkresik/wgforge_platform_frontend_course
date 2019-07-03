@@ -1,3 +1,4 @@
+/* eslint-disable filenames/match-regex */
 import test from 'tape-catch';
 import _merge from 'lodash.merge';
 import deepMerge from '../exercises/deepMerge';
@@ -48,13 +49,51 @@ const sourceObject = {
 test('deepMerge', t => {
   t.equal(typeof deepMerge, 'function');
 
-  const deepMergeResult = deepMerge(destinationObject, sourceObject);
-  const expectedMergeResult = _merge(destinationObject, sourceObject);
+  const dstClone = () => JSON.parse(JSON.stringify(destinationObject));
+
+  const deepMergeResult = deepMerge(dstClone(), sourceObject);
+  const expectedMergeResult = _merge(dstClone(), sourceObject);
 
   t.test('deep merge two objects', tt => {
     tt.deepEqual(deepMergeResult, expectedMergeResult);
     tt.end();
   });
 
+  t.end();
+});
+
+test('shouldn’t rewrite value with undefined', t => {
+  const key = 'k';
+  const value = 'val';
+  const sObj = { [key]: undefined };
+  const dObj = { [key]: value };
+
+  const mergedObj = deepMerge(dObj, sObj);
+
+  t.ok(mergedObj[key] === value);
+  t.end();
+});
+
+test('should deep merge an example from task description', t => {
+  const dst = {
+    students: [{ name: 'Unit 1' }, { name: 'Unit 2' }],
+    label: 'backend',
+    count: 1
+  };
+
+  const src = {
+    students: [{ surname: 'Forge 1' }, { surname: 'Forge 2' }],
+    label: 'frontend'
+  };
+
+  const expected = {
+    students: [{ name: 'Unit 1', surname: 'Forge 1' }, { name: 'Unit 2', surname: 'Forge 2' }],
+    label: 'frontend',
+    count: 1
+  };
+
+  deepMerge(dst, src);
+
+  t.deepEqual(dst, expected);
   t.end();
 });

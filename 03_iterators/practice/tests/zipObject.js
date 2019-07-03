@@ -13,5 +13,17 @@ test('zipObject', t => {
     tt.end();
   });
 
+  t.test('zipObject if props are an empty array', tt => {
+    const props = [];
+    tt.deepEqual(zipObject(props, values), _zipObject(props, values));
+    tt.end();
+  });
+
+  t.test('zipObject if values are an empty array', tt => {
+    const values = [];
+    tt.deepEqual(zipObject(props, values), _zipObject(props, values));
+    tt.end();
+  });
+
   t.end();
 });
