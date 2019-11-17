@@ -28,12 +28,16 @@ test('query', t => {
   }
 
   t.test('generated SQL', qt => {
-    const select = q.select().from('user');
+    const select = query()
+      .select()
+      .from('user');
 
     qt.equal(select.toString(), 'SELECT * FROM user;');
     qt.equal(select.from('ignore_this').toString(), 'SELECT * FROM user;');
     qt.equal(
-      select
+      query()
+        .select()
+        .from('user')
         .where('id')
         .in([42, 1337])
         .toString(),
@@ -147,7 +151,7 @@ test('query', t => {
     tt.end();
   });
 
-  t.test('sql escaping', { skip: true }, tt => {
+  t.test('sql escaping', { skip: false }, tt => {
     const escapedQ1 = query('table', { escapeNames: true });
     const escapedQ2 = query({ escapeNames: true });
 
